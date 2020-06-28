@@ -1,11 +1,25 @@
 function submit_message(question) {
+    /*$.ajax({
+        type: 'GET',
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        url: "/qa",
+        success: function (data) { 
+            alert('Successfully get method executed.') 
+        },
+        error: function (a, jqXHR, exception) {
+            alert('failed')
+        }
+    });*/
+
     $.get( "/qa", {question: question}, handle_response);
 
     function handle_response(data) {
+
         // append the bot repsonse to the div
         $('.chat-container').append(`
             <div class="chat-message col-md-5 offset-md-7 bot-message">
-            ${data.answer}
+            ${data.answer} 
             </div>
             `)
         // remove the loading indicator

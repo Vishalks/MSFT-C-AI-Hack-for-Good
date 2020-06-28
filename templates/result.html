@@ -12,15 +12,15 @@
 		<div class="row bg-white main">
 			<div class="col-lg border opacity-2">
 				<div class="border border-success mx-auto">
-					<h2> Vidify </h2>
+					<h2 class="text-center"> Vidify </h2>
 					<hr />
 					<div class="embed-responsive embed-responsive-16by9 col-xs-12 text-center">
 						<iframe width="600" height="400"
 						src="https://www.youtube.com/embed/NBAX3jAAiS8?autoplay=1"></iframe>
 					</div>
 				</div>
-				<div class="border overflow-auto transcripts border-success opacity-2 mx-auto" style="max-height: 1450px;">
-					<h4> Transcripts </h4> 
+				<div class="border overflow-auto transcripts border-success opacity-2 mx-auto" style="max-height: 1600px;">
+					<h4  class="text-center"> Transcripts </h4> 
 					<hr />
 					<ul class="list-group transcript-list overflow-auto">
 						{% for transcript in transcripts %}
@@ -34,10 +34,11 @@
 						{% endif %}
 						{% endfor %}
 					</ul>
-				</div>
-				
+				</div>				
 			</div>
 			<div class="col-lg border border-success opacity-2  mx-auto">
+				<h2 class="text-center"> Question Answering </h2> 
+
 				<div class="border border-success mx-auto ">
 					<div class="chat-container" style="overflow: auto; max-height: 80vh">
 						<!-- chat messages -->
@@ -53,7 +54,7 @@
 
 				<div class="border border-success mx-auto">
 
-					<h2>Keywords</h2>
+					<h2 class="text-center">Keywords</h2>
 					{% for keyword, searchresults in results.items() %}
 					<button type="button" class="btn btn-success">
 						{{keyword}}
@@ -69,7 +70,7 @@
 				</div>
 
 				<div class="border border-success mx-auto">
-					<h2>Topics</h2>
+					<h2 class="text-center">Topics</h2>
 					<ul class="list-group list-unstyled" >
 						{% for topic in topics %}
 						<li>
@@ -103,10 +104,10 @@
 				</div>
 			</div>
 
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" ></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" ></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-	<script src="{{ url_for('static', filename='js/chat.js')}}">
+	<script src="{{ url_for('static', filename='js/chat.js')}}"></script>
 
 </body>
 </html>

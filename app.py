@@ -8,7 +8,7 @@ from msrest.authentication import CognitiveServicesCredentials
 from azure.cognitiveservices.vision.computervision import ComputerVisionClient
 from azure.cognitiveservices.search.websearch import WebSearchClient
 from azure.cognitiveservices.search.websearch.models import SafeSearch
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -178,15 +178,14 @@ def qna_answer(question = "When was RoboRaid launched?"):
         answer = answers_json['answer']
         score = answers_json['score']
         conn.close()
-        print(answer, score)
-        return json.dumps({
+        return jsonify({
             'answer': answer,
             'score': score,
             'status': 'ok'
         })
     except Exception as e:
         # print(e)
-        return json.dumps({
+        return jsonify({
             'answer': 'NA',
             'score': '0',
             'status': 'not ok'
