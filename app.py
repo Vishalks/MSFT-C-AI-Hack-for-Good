@@ -90,6 +90,20 @@ def gettopics(max_topics=5):
 
     return output
 
+def getnamedpeople(max_num=5):
+    people = insights['namedPeople']
+
+    output = []
+    for ind, topic in enumerate(people):
+        output.append({
+            'name': topic['name'],
+            'url': topic['referenceUrl']
+        })
+        if ind > max_num:
+            break
+
+    return output
+
 
 
 @app.route('/',  methods=['GET'])
@@ -119,6 +133,8 @@ def index():
     # print(out_trans)
     out_trans = gettranscript()
 
+
+
     return render_template('result.html', results=output_dict, transcripts=out_trans)
 
 
@@ -127,6 +143,7 @@ if __name__ == "__main__":
     # print(keywords)
     # gettranscript()
     # index()
-    print(gettopics())
+    # print(gettopics())
+    # print(getnamedpeople())
     # print(gettranscript())
-    # app.run(port=8000, debug=True)
+    app.run(port=8000, debug=True)
