@@ -76,6 +76,21 @@ def gettranscript(max_keywords=5, max_results=5):
     # return render_template('result.html', transcript=new_transcript)
     return new_transcript
 
+def gettopics(max_topics=5):
+
+    topics = insights['topics']
+    output = []
+    for ind, topic in enumerate(topics):
+        output.append({
+            'name': topic['name'],
+            'url': topic['referenceUrl']
+        })
+        if ind > max_topics:
+            break
+
+    return output
+
+
 
 @app.route('/',  methods=['GET'])
 def index():
@@ -112,5 +127,6 @@ if __name__ == "__main__":
     # print(keywords)
     # gettranscript()
     # index()
+    print(gettopics())
     # print(gettranscript())
-    app.run(port=8000, debug=True)
+    # app.run(port=8000, debug=True)
