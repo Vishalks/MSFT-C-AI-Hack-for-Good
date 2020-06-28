@@ -2,7 +2,6 @@ import json
 import os
 import http.client, urllib.request, urllib.parse, urllib.error, base64
 import string
-
 from msrest.authentication import CognitiveServicesCredentials
 from azure.cognitiveservices.vision.computervision import ComputerVisionClient
 from azure.cognitiveservices.search.websearch import WebSearchClient
@@ -31,7 +30,7 @@ search_client = WebSearchClient(
 
 app = Flask(__name__)
 
-file_to_read = json.load(open('holovid.json'))
+file_to_read = json.load(open('holovid.json',encoding='utf8'))
 insights = file_to_read['summarizedInsights']
 video = file_to_read['videos']
 
@@ -207,3 +206,4 @@ if __name__ == "__main__":
     # print(gettranscript())
     # print(qna_answer('Please describe MasterCred'))
     app.run(port=8000, debug=True)
+
