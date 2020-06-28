@@ -3,8 +3,6 @@ import os
 import http.client, urllib.request, urllib.parse, urllib.error, base64
 import string
 
-import dialogflow
-
 from msrest.authentication import CognitiveServicesCredentials
 from azure.cognitiveservices.vision.computervision import ComputerVisionClient
 from azure.cognitiveservices.search.websearch import WebSearchClient
