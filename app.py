@@ -165,7 +165,7 @@ def qna_answer(question = "Please describe MasterCred"):
     }
  
     try:
-        json_question = {'question':question}
+        json_question = {'question':request.form['question']}
         json_data = json.dumps(json_question)
         conn = http.client.HTTPSConnection('video-analyzer.azurewebsites.net')
         
