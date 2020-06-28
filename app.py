@@ -41,9 +41,9 @@ def getkeywords(max_keywords=5, max_results=5):
             break
 
         keyword = insight['name']
-        keywords[keyword] = {}
-        keywords[keyword]['appearances'] = insight['appearances']
-        keywords[keyword]['searchresults'] = []
+        # keywords[keyword] = {}
+        # keywords[keyword]['appearances'] = insight['appearances']
+        keywords[keyword] = []
 
         web_data = search_client.web.search(query=keyword)
 
@@ -54,7 +54,7 @@ def getkeywords(max_keywords=5, max_results=5):
                 temp = {}
                 temp['name'] = web_page.name
                 temp['url'] = web_page.url
-                keywords[keyword]['searchresults'].append(temp)
+                keywords[keyword].append(temp)
 
     return keywords
     # return render_template('result.html', keywords=keywords)
@@ -64,9 +64,14 @@ def getkeywords(max_keywords=5, max_results=5):
 def gettranscript(max_keywords=5, max_results=5):
 
     transcript = video[0]['insights']['transcript']
-    new_transcript = {}
+    new_transcript = []
     for tr in transcript:
-        new_transcript[str(tr["id"])] = tr
+
+        new_transcript.append({
+            'text': tr['text'],
+            'start': tr['instances'][0]['start'],
+            'end': tr['instances'][0]['end']
+        })
 
     # return render_template('result.html', transcript=new_transcript)
     return new_transcript
@@ -74,29 +79,30 @@ def gettranscript(max_keywords=5, max_results=5):
 
 @app.route('/',  methods=['GET'])
 def index():
-    with open('results.json') as file_ptr:
-        results = json.load(file_ptr)
-        output_dict = {}
-        for keyword in results:
-            output_dict[keyword] = results[keyword]['searchresults']
+    # with open('results.json') as file_ptr:
+    #     results = json.load(file_ptr)
+    #     output_dict = {}
+    #     for keyword in results:
+    #         output_dict[keyword] = results[keyword]['searchresults']
 
     # print(output_dict)
     # print(getkeywords())
+    output_dict = getkeywords()
 
-    with open('transcripts.json') as file_ptr:
-        transcripts = json.load(file_ptr)
-        # print(transcripts)
-        out_trans = []
-        for transcript_id, transcript_details in transcripts.items():
-            out_trans.append({
-                'text': transcript_details['text'],
-                'start': transcript_details['instances'][0]['start'],
-                'end': transcript_details['instances'][0]['end'],
-                }
-            )
+    # with open('transcripts.json') as file_ptr:
+    #     transcripts = json.load(file_ptr)
+    #     # print(transcripts)
+    #     out_trans = []
+    #     for transcript_id, transcript_details in transcripts.items():
+    #         out_trans.append({
+    #             'text': transcript_details['text'],
+    #             'start': transcript_details['instances'][0]['start'],
+    #             'end': transcript_details['instances'][0]['end'],
+    #             }
+    #         )
 
     # print(out_trans)
-    # print(gettranscript())
+    out_trans = gettranscript()
 
     return render_template('result.html', results=output_dict, transcripts=out_trans)
 
@@ -105,5 +111,6 @@ if __name__ == "__main__":
     # keywords = getkeywords()
     # print(keywords)
     # gettranscript()
+    # index()
     # print(gettranscript())
     app.run(port=8000, debug=True)
