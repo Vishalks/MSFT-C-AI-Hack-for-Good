@@ -19,7 +19,7 @@
 						src="https://www.youtube.com/embed/NBAX3jAAiS8?autoplay=1"></iframe>
 					</div>
 				</div>
-				<div class="border overflow-auto transcripts border-success opacity-2 mx-auto" style="max-height: 1020px;">
+				<div class="border overflow-auto transcripts border-success opacity-2 mx-auto" style="max-height: 1450px;">
 					<h4> Transcripts </h4> 
 					<hr />
 					<ul class="list-group transcript-list overflow-auto">
@@ -38,19 +38,54 @@
 				
 			</div>
 			<div class="col-lg border border-success opacity-2  mx-auto">
-				<h2>Insights</h2>
-				{% for keyword, searchresults in results.items() %}
-				<button type="button" class="btn btn-success">
-					{{keyword}}
-				</button>
-				<ul class="list-group list-unstyled" >
-					{% for searchresult in searchresults %}
-					<li>
-						<a class="list-group-item list-group-item-action" href="{{searchresult.url}}">{{searchresult.name}}</a>
-					</li>
+				<div class="border border-success mx-auto">
+
+					<h2>Keywords</h2>
+					{% for keyword, searchresults in results.items() %}
+					<button type="button" class="btn btn-success">
+						{{keyword}}
+					</button>
+					<ul class="list-group list-unstyled" >
+						{% for searchresult in searchresults %}
+						<li>
+							<a class="list-group-item list-group-item-action" href="{{searchresult.url}}">{{searchresult.name}}</a>
+						</li>
+						{% endfor%}
+					</ul>
 					{% endfor%}
-				</ul>
-				{% endfor%}
+				</div>
+
+				<div class="border border-success mx-auto">
+					<h2>Topics</h2>
+					<ul class="list-group list-unstyled" >
+						{% for topic in topics %}
+						<li>
+							{% if topic.url %}
+							<a class="list-group-item list-group-item-action" href="{{topic.url}}">
+								{% else %}
+								<a class="list-group-item list-group-item-action" href="#">
+									{% endif %}
+								{{topic.name}}</a>
+							</li>
+							{% endfor%}
+					</ul>
+				</div>
+
+				<div class="border border-success mx-auto">
+					<h2>Named Entities</h2>
+					<ul class="list-group list-unstyled" >
+						{% for named_entity in named_entities %}
+						<li>
+							{% if named_entity.url %}
+							<a class="list-group-item list-group-item-action" href="{{named_entity.url}}">
+							{% else %}
+							<a class="list-group-item list-group-item-action" href="#">
+								{% endif %}
+							{{named_entity.name}}</a>
+						</li>
+						{% endfor%}
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>

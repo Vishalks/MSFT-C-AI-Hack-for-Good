@@ -143,9 +143,13 @@ def index():
     # print(out_trans)
     out_trans = gettranscript()
 
+    topics = gettopics()
+    named_entities = getnamedentity()
 
-
-    return render_template('result.html', results=output_dict, transcripts=out_trans)
+    return render_template('result.html', 
+        results=output_dict, transcripts=out_trans,
+        named_entities=named_entities, topics=topics
+    )
 
 
 if __name__ == "__main__":
