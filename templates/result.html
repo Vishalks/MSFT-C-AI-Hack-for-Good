@@ -1,11 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+<link rel="stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/custom.css') }}">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title> Vidify </title>
+</head>
 </head>
 <body>
-    <h2>{{ message }}</h2>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg border">
+				<div class="row border">
+					<h2> Vidify </h2>
+					<iframe width="600" height="315"
+					src="https://www.youtube.com/embed/tgbNymZ7vqY?autoplay=1"></iframe>
+				</div>
+				<div class="row border">
+					<h4> Transcripts </h4> 
+					<br>
+					<ul>
+						{% for transcript in transcripts %}
+						<li>
+							{{transcript.start}} - {{transcript.end}} : {{transcript.text}} 
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
+				
+			</div>
+			<div class="col-lg border">
+				<h2>Insights</h2>
+				{% for keyword, searchresults in results.items() %}
+				<button type="button" class="btn btn-success">
+					{{keyword}}
+				</button>
+				<ul>
+					{% for searchresult in searchresults %}
+					<li>
+						<a href="{{searchresult.url}}">{{searchresult.name}}</a>
+					</li>
+					{% endfor%}
+				</ul>
+				{% endfor%}
+			</div>
+		</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" ></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 </body>
 </html>

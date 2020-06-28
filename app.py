@@ -1,6 +1,6 @@
 import json
 import os
-from azure.ai.textanalytics import TextAnalyticsClient
+# from azure.ai.textanalytics import TextAnalyticsClient
 from msrest.authentication import CognitiveServicesCredentials
 from azure.cognitiveservices.vision.computervision import ComputerVisionClient
 from azure.cognitiveservices.search.websearch import WebSearchClient
@@ -31,7 +31,7 @@ insights = file_to_read['summarizedInsights']
 video = file_to_read['videos']
 
 
-@app.route('/getkeywords',  methods=['GET'])
+# @app.route('/getkeywords',  methods=['GET'])
 def getkeywords(max_keywords=5, max_results=5):
 
     keywords = {}
@@ -56,11 +56,11 @@ def getkeywords(max_keywords=5, max_results=5):
                 temp['url'] = web_page.url
                 keywords[keyword]['searchresults'].append(temp)
 
-    # return keywords
-    return render_template('result.html', keywords=keywords)
+    return keywords
+    # return render_template('result.html', keywords=keywords)
 
 
-@app.route('/gettranscript',  methods=['GET'])
+# @app.route('/gettranscript',  methods=['GET'])
 def gettranscript(max_keywords=5, max_results=5):
 
     transcript = video[0]['insights']['transcript']
@@ -68,7 +68,37 @@ def gettranscript(max_keywords=5, max_results=5):
     for tr in transcript:
         new_transcript[str(tr["id"])] = tr
 
-    return render_template('result.html', transcript=new_transcript)
+    # return render_template('result.html', transcript=new_transcript)
+    return new_transcript
+
+
+@app.route('/',  methods=['GET'])
+def index():
+    with open('results.json') as file_ptr:
+        results = json.load(file_ptr)
+        output_dict = {}
+        for keyword in results:
+            output_dict[keyword] = results[keyword]['searchresults']
+
+    # print(output_dict)
+    # print(getkeywords())
+
+    with open('transcripts.json') as file_ptr:
+        transcripts = json.load(file_ptr)
+        # print(transcripts)
+        out_trans = []
+        for transcript_id, transcript_details in transcripts.items():
+            out_trans.append({
+                'text': transcript_details['text'],
+                'start': transcript_details['instances'][0]['start'],
+                'end': transcript_details['instances'][0]['end'],
+                }
+            )
+
+    # print(out_trans)
+    # print(gettranscript())
+
+    return render_template('result.html', results=output_dict, transcripts=out_trans)
 
 
 if __name__ == "__main__":
