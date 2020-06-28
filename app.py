@@ -90,7 +90,7 @@ def gettopics(max_topics=5):
 
     return output
 
-def getnamedpeople(max_num=5):
+def getnamedentity(max_num=5):
     people = insights['namedPeople']
 
     output = []
@@ -101,6 +101,16 @@ def getnamedpeople(max_num=5):
         })
         if ind > max_num:
             break
+
+    locations = insights['namedLocations']
+    for ind, topic in enumerate(locations):
+        output.append({
+            'name': topic['name'],
+            'url': topic['referenceUrl']
+        })
+        if ind > max_num:
+            break
+
 
     return output
 
