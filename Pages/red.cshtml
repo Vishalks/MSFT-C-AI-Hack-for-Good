@@ -1,0 +1,25 @@
+﻿@page "/red"
+@using ChannelGroupTab
+
+@{
+    Layout = "_Layout";
+}
+
+    <script>
+        microsoftTeams.initialize();
+        microsoftTeams.authentication.getUser({
+            successCallback: (userProfile) => {
+                console.log("got user info!");
+                console.log(userProfile);
+                console.log(userProfile.tid);
+            },
+            failureCallback: (reason) => {
+                console.log("Failed to get user info!");
+                console.log(reason);
+            }
+        });
+    </script>
+
+
+        <iframe id="whiteboard" width="1000" height="700" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen="allowfullscreen" src="https://dev.whiteboard.microsoft.com/me/whiteboards/b1f90aa7-cd4e-43f7-945e-44c90e9b2c2e?embed=1"></iframe>
+

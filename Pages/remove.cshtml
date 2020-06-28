@@ -1,0 +1,28 @@
+@page "/remove"
+@using ChannelGroupTab
+
+@{
+    Layout = "_Layout";
+}
+
+
+    <body>
+        <button onclick="onClick()">Delete this tab and the associated whiteboard?</button>
+        <script>
+            microsoftTeams.initialize();
+            microsoftTeams.settings.registerOnRemoveHandler((removeEvent) => {
+                // Here you can designate the tab content to be removed and/or archived.
+                microsoftTeams.settings.getSettings((settings) => {
+                    settings.contentUrl = "..."
+                });
+                removeEvent.notifySuccess();
+            });
+
+            const onClick = () => {
+                microsoftTeams.settings.setValidityState(true);
+            }
+        </script>
+    </body>
+
+
+
