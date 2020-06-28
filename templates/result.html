@@ -1,40 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/custom.css') }}">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title> Vidify </title>
-</head>
+	<link rel="stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/custom.css') }}">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 </head>
 <body class="bg-secondary">
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row bg-white main">
-			<div class="col-lg border">
-				<div class="row border">
+			<div class="col-lg border opacity-2">
+				<div class="border border-success mx-auto">
 					<h2> Vidify </h2>
 					<hr />
-					<iframe width="600" height="400"
-					src="https://www.youtube.com/embed/VVqmVXA85O0?autoplay=1"></iframe>
+					<div class="embed-responsive embed-responsive-16by9 col-xs-12 text-center">
+						<iframe width="600" height="400"
+						src="https://www.youtube.com/embed/VVqmVXA85O0?autoplay=1"></iframe>
+					</div>
 				</div>
-				<div class="row border overflow-auto">
+				<div class="border overflow-auto transcripts border-success opacity-2 mx-auto" style="max-height: 1020px;">
 					<h4> Transcripts </h4> 
 					<hr />
-					<br>
 					<ul class="list-group transcript-list overflow-auto">
 						{% for transcript in transcripts %}
+						{% if transcript.text %}
 						<li class="list-group-item scrollBox">
-							{{transcript.start}} - {{transcript.end}} : {{transcript.text}} 
+							<button type="button" class="btn btn-info btn-block">
+								{{transcript.start}} - {{transcript.end}}
+							</button>
+							{{transcript.text}} 
 						</li>
+						{% endif %}
 						{% endfor %}
 					</ul>
 				</div>
 				
 			</div>
-			<div class="col-lg border">
+			<div class="col-lg border border-success opacity-2  mx-auto">
 				<h2>Insights</h2>
-				<hr />
 				{% for keyword, searchresults in results.items() %}
 				<button type="button" class="btn btn-success">
 					{{keyword}}
