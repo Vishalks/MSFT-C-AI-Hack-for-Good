@@ -12,7 +12,7 @@ function submit_message(question) {
         }
     });*/
 
-    $.get( "/qa", {question: question}, handle_response);
+    $.post("/qa", {question: question}, handle_response);
 
     function handle_response(data) {
 
@@ -31,7 +31,7 @@ $('#target').on('submit', function(e){
     e.preventDefault();
     const input_message = $('#input_message').val()
 
-    console.log('ques' + input_message);
+    console.log(input_message);
 
     // return if the user does not enter any text
     if (!input_message) {

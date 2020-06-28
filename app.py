@@ -1,6 +1,7 @@
 import json
 import os
 import http.client, urllib.request, urllib.parse, urllib.error, base64
+import string
 
 import dialogflow
 
@@ -11,6 +12,10 @@ from azure.cognitiveservices.search.websearch.models import SafeSearch
 from flask import Flask, request, render_template, jsonify
 from dotenv import load_dotenv
 load_dotenv()
+
+from markupsafe import escape
+
+printable = set(string.printable)
 
 # Load the values from environmental variables
 # The magic of dotenv
@@ -154,7 +159,7 @@ def index():
     )
 
 @app.route('/qa',  methods=['POST', 'GET'])
-def qna_answer(question = "When was RoboRaid launched?"):
+def qna_answer(question = "Please describe MasterCred"):
     headers = {
         # Request headers
         'Authorization': '0aeb1880-501f-4bb8-b73e-96f96d1cd329',
@@ -165,6 +170,9 @@ def qna_answer(question = "When was RoboRaid launched?"):
         json_question = {'question':question}
         json_data = json.dumps(json_question)
         conn = http.client.HTTPSConnection('video-analyzer.azurewebsites.net')
+        
+        print(question)
+
         conn.request(
             "POST", 
             "/qnamaker/knowledgebases/6123d042-c877-458d-8770-2feb34da05b3/generateAnswer",
@@ -179,13 +187,13 @@ def qna_answer(question = "When was RoboRaid launched?"):
         answer = answers_json['answer']
         score = answers_json['score']
         conn.close()
+        answer = answer.encode("ascii", errors="ignore").decode()
         return jsonify({
             'answer': answer,
             'score': score,
             'status': 'ok'
         })
     except Exception as e:
-        # print(e)
         return jsonify({
             'answer': 'NA',
             'score': '0',
@@ -199,4 +207,5 @@ if __name__ == "__main__":
     # print(gettopics())
     # print(getnamedpeople())
     # print(gettranscript())
+    # print(qna_answer('Please describe MasterCred'))
     app.run(port=8000, debug=True)
