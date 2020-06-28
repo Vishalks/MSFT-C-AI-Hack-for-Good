@@ -57,3 +57,4 @@ $('#target').on('submit', function(e){
     // send the message
     submit_message(input_message)
 });
+
