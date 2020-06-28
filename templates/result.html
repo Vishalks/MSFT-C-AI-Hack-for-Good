@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title> Vidify </title>
-	<link rel="stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/custom.css') }}">
+	<link rel="stylesheet" type= "text/css" href= "{{ url_for('static', filename='css/custom.css') }}">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 </head>
 <body class="bg-secondary">
@@ -38,6 +38,19 @@
 				
 			</div>
 			<div class="col-lg border border-success opacity-2  mx-auto">
+				<div class="border border-success mx-auto ">
+					<div class="chat-container" style="overflow: auto; max-height: 80vh">
+						<!-- chat messages -->
+						<div class="chat-message col-md-5 offset-md-7 bot-message">
+							Welcome to QA portal. How can I help you?
+						</div>
+					</div>
+					<form id="target">
+						<input class="input" type="text" value="" placeholder="Enter question..." id="input_message"/>
+						<input type="submit" hidden>
+					</form>
+				</div>
+
 				<div class="border border-success mx-auto">
 
 					<h2>Keywords</h2>
@@ -68,31 +81,32 @@
 								{{topic.name}}</a>
 							</li>
 							{% endfor%}
-					</ul>
-				</div>
+						</ul>
+					</div>
 
-				<div class="border border-success mx-auto">
-					<h2>Named Entities</h2>
-					<ul class="list-group list-unstyled" >
-						{% for named_entity in named_entities %}
-						<li>
-							{% if named_entity.url %}
-							<a class="list-group-item list-group-item-action" href="{{named_entity.url}}">
-							{% else %}
-							<a class="list-group-item list-group-item-action" href="#">
-								{% endif %}
-							{{named_entity.name}}</a>
-						</li>
-						{% endfor%}
-					</ul>
+					<div class="border border-success mx-auto">
+						<h2>Named Entities</h2>
+						<ul class="list-group list-unstyled" >
+							{% for named_entity in named_entities %}
+							<li>
+								{% if named_entity.url %}
+								<a class="list-group-item list-group-item-action" href="{{named_entity.url}}">
+									{% else %}
+									<a class="list-group-item list-group-item-action" href="#">
+										{% endif %}
+									{{named_entity.name}}</a>
+								</li>
+								{% endfor%}
+							</ul>
+						</div>
+					</div>
 				</div>
 			</div>
-		</div>
-	</div>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" ></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<script src="{{ url_for('static', filename='js/chat.js')}}">
 
 </body>
 </html>

@@ -1,12 +1,14 @@
 import json
 import os
-# from azure.ai.textanalytics import TextAnalyticsClient
+import http.client, urllib.request, urllib.parse, urllib.error, base64
+
+import dialogflow
+
 from msrest.authentication import CognitiveServicesCredentials
 from azure.cognitiveservices.vision.computervision import ComputerVisionClient
 from azure.cognitiveservices.search.websearch import WebSearchClient
 from azure.cognitiveservices.search.websearch.models import SafeSearch
 from flask import Flask, request, render_template
-
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -151,10 +153,47 @@ def index():
         named_entities=named_entities, topics=topics
     )
 
+@app.route('/qa',  methods=['POST', 'GET'])
+def qna_answer(question = "When was RoboRaid launched?"):
+    headers = {
+        # Request headers
+        'Authorization': '0aeb1880-501f-4bb8-b73e-96f96d1cd329',
+        'Content-type': 'application/json'
+    }
+ 
+    try:
+        json_question = {'question':question}
+        json_data = json.dumps(json_question)
+        conn = http.client.HTTPSConnection('video-analyzer.azurewebsites.net')
+        conn.request(
+            "POST", 
+            "/qnamaker/knowledgebases/12b5fb54-6b82-4e43-b23c-b34397a7f0d7/generateAnswer",
+            json_data,
+            headers
+        )
+        response = conn.getresponse()
+        data = response.read().decode()
+        loaded_json = json.loads(data)
+        answers_json = loaded_json['answers'][0]
+        answer = answers_json['answer']
+        score = answers_json['score']
+        conn.close()
+        print(answer, score)
+        return json.dumps({
+            'answer': answer,
+            'score': score,
+            'status': 'ok'
+        })
+    except Exception as e:
+        # print(e)
+        return json.dumps({
+            'answer': 'NA',
+            'score': '0',
+            'status': 'not ok'
+        })
+
 
 if __name__ == "__main__":
-    # keywords = getkeywords()
-    # print(keywords)
     # gettranscript()
     # index()
     # print(gettopics())
