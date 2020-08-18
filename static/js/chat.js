@@ -1,17 +1,4 @@
 function submit_message(question) {
-    /*$.ajax({
-        type: 'GET',
-        contentType: "application/json; charset=utf-8",
-        dataType: 'json',
-        url: "/qa",
-        success: function (data) { 
-            alert('Successfully get method executed.') 
-        },
-        error: function (a, jqXHR, exception) {
-            alert('failed')
-        }
-    });*/
-
     $.post("/qa", {question: question}, handle_response);
 
     function handle_response(data) {
