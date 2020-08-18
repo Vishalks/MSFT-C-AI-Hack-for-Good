@@ -20,10 +20,6 @@ COGSVCS_KEY = os.getenv('COGSVCS_KEY')
 COGSVCS_CLIENTURL = os.getenv('COGSVCS_CLIENTURL')
 
 ta_credential = CognitiveServicesCredentials(COGSVCS_KEY)
-# cv_analytics_client = ComputerVisionClient(
-#     endpoint=COGSVCS_CLIENTURL, credential=COGSVCS_KEY)
-# text_analytics_client = TextAnalyticsClient(
-#     endpoint=COGSVCS_CLIENTURL, credential=COGSVCS_KEY)
 search_client = WebSearchClient(
     endpoint=COGSVCS_CLIENTURL, credentials=ta_credential)
 
@@ -45,8 +41,6 @@ def getkeywords(max_keywords=5, max_results=5):
             break
 
         keyword = insight['name']
-        # keywords[keyword] = {}
-        # keywords[keyword]['appearances'] = insight['appearances']
         keywords[keyword] = []
 
         web_data = search_client.web.search(query=keyword)
@@ -76,8 +70,7 @@ def gettranscript(max_keywords=5, max_results=5):
             'start': tr['instances'][0]['start'],
             'end': tr['instances'][0]['end']
         })
-
-    # return render_template('result.html', transcript=new_transcript)
+        
     return new_transcript
 
 def gettopics(max_topics=5):
@@ -122,29 +115,7 @@ def getnamedentity(max_num=5):
 
 @app.route('/',  methods=['GET'])
 def index():
-    # with open('results.json') as file_ptr:
-    #     results = json.load(file_ptr)
-    #     output_dict = {}
-    #     for keyword in results:
-    #         output_dict[keyword] = results[keyword]['searchresults']
-
-    # print(output_dict)
-    # print(getkeywords())
     output_dict = getkeywords()
-
-    # with open('transcripts.json') as file_ptr:
-    #     transcripts = json.load(file_ptr)
-    #     # print(transcripts)
-    #     out_trans = []
-    #     for transcript_id, transcript_details in transcripts.items():
-    #         out_trans.append({
-    #             'text': transcript_details['text'],
-    #             'start': transcript_details['instances'][0]['start'],
-    #             'end': transcript_details['instances'][0]['end'],
-    #             }
-    #         )
-
-    # print(out_trans)
     out_trans = gettranscript()
 
     topics = gettopics()
@@ -199,12 +170,6 @@ def qna_answer(question = "Please describe MasterCred"):
 
 
 if __name__ == "__main__":
-    # gettranscript()
-    # index()
-    # print(gettopics())
-    # print(getnamedpeople())
-    # print(gettranscript())
-    # print(qna_answer('Please describe MasterCred'))
     app.run(port=8000, debug=True)
 
 
